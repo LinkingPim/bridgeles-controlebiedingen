@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controlebiedingen bij slemonderzoek</title>
+<style>
+  :root{
+    --oranje:       #f48c00;
+    --oranje-donker:#c96f00;
+    --oranje-licht: #fff1de;
+    --inkt:         #221d17;
+    --rood:         #c4263a;
+    --zwart:        #1c1b17;
+    --grijs:        #6b6358;
+    --vellum:       #fffaf2;
+    --lijn:         rgba(34,29,23,0.12);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--vellum);
+    color:var(--inkt);
+    font-family:'Iowan Old Style','Palatino Linotype',Georgia,serif;
+    line-height:1.65;
+  }
+
+  .mono{font-family:'Courier New',ui-monospace,monospace;}
+
+  /* ===== HERO ===== */
+  .hero{
+    background:var(--oranje);
+    color:#2a1500;
+    padding:4.5rem 1.5rem 3.5rem;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:8px;
+    background:repeating-linear-gradient(90deg,
+      var(--zwart) 0 14px, transparent 14px 28px);
+    opacity:0.15;
+  }
+  .hero-suits{
+    position:absolute;
+    top:1.2rem; right:1.5rem;
+    display:flex;
+    gap:0.5rem;
+    font-size:1.6rem;
+    opacity:0.55;
+  }
+  .hero-suits .r{color:var(--rood);}
+  .hero-suits .z{color:var(--zwart);}
+  .hero-inner{max-width:760px; margin:0 auto; position:relative; z-index:2;}
+  .eyebrow{
+    font-family:'Courier New',monospace;
+    font-size:0.78rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:#5a3200;
+    margin-bottom:0.9rem;
+  }
+  .hero h1{
+    font-size:clamp(2rem,5vw,3rem);
+    margin:0 0 0.9rem;
+    line-height:1.1;
+    color:#1f1100;
+  }
+  .hero p.lead{
+    font-size:1.12rem;
+    max-width:560px;
+    margin:0;
+    color:#3a1f00;
+  }
+
+  .wrap{max-width:760px; margin:0 auto; padding:0 1.5rem;}
+
+  section{padding:3.2rem 0; border-bottom:1px solid var(--lijn);}
+  section:last-of-type{border-bottom:none;}
+
+  .nr{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:2.1rem; height:2.1rem;
+    background:var(--oranje);
+    color:#fff;
+    border-radius:50%;
+    font-family:'Courier New',monospace;
+    font-weight:700;
+    font-size:1rem;
+    margin-right:0.7rem;
+    flex-shrink:0;
+  }
+  h2{
+    font-size:1.7rem;
+    margin:0 0 1.1rem;
+    color:var(--oranje-donker);
+    display:flex;
+    align-items:center;
+  }
+  h3{font-size:1.2rem; margin:1.8rem 0 0.6rem; color:var(--inkt);}
+  p{margin:0 0 1rem; font-size:1.03rem;}
+  em.kicker{
+    display:block;
+    font-style:italic;
+    color:var(--grijs);
+    font-size:0.95rem;
+    margin:-0.6rem 0 1.6rem;
+  }
+  strong{color:var(--oranje-donker);}
+
+  .suit{font-weight:700;}
+  .suit.r{color:var(--rood);}
+  .suit.z{color:var(--zwart);}
+
+  /* kort-idee kader */
+  .kort-idee{
+    background:var(--inkt);
+    color:var(--oranje-licht);
+    border-radius:10px;
+    padding:1.4rem 1.6rem;
+    margin-bottom:0;
+    display:flex;
+    gap:1rem;
+    align-items:flex-start;
+  }
+  .kort-idee .label{
+    font-family:'Courier New',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--oranje);
+    white-space:nowrap;
+    margin-top:0.2rem;
+  }
+  .kort-idee p{margin:0; color:#fff; font-size:1.02rem;}
+
+  /* let-op kader */
+  .letop{
+    background:var(--oranje-licht);
+    border-left:4px solid var(--oranje);
+    border-radius:0 8px 8px 0;
+    padding:1.1rem 1.4rem;
+    margin:1.6rem 0;
+  }
+  .letop .label{
+    font-family:'Courier New',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--oranje-donker);
+    margin-bottom:0.4rem;
+    display:block;
+  }
+  .letop p{margin:0; font-size:0.99rem;}
+
+  /* speelkaart iconen */
+  .kaart-rij{
+    display:flex;
+    gap:0.7rem;
+    flex-wrap:wrap;
+    margin:1.5rem 0;
+  }
+  .kaart{
+    width:62px; height:84px;
+    background:#fff;
+    border:1.5px solid var(--lijn);
+    border-radius:7px;
+    box-shadow:0 2px 5px rgba(34,29,23,0.08);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-family:'Iowan Old Style',Georgia,serif;
+    flex-shrink:0;
+  }
+  .kaart .rank{font-size:1.1rem; font-weight:700; line-height:1;}
+  .kaart .suit-symbol{font-size:1.6rem; line-height:1.1;}
+  .kaart.r .rank, .kaart.r .suit-symbol{color:var(--rood);}
+  .kaart.z .rank, .kaart.z .suit-symbol{color:var(--zwart);}
+  .kaart.singleton{position:relative;}
+  .kaart.singleton::after{
+    content:"enkel";
+    position:absolute;
+    bottom:3px;
+    font-size:0.55rem;
+    font-family:'Courier New',monospace;
+    color:var(--grijs);
+    letter-spacing:0.05em;
+  }
+
+  /* controle tabel/cards */
+  .controle-grid{display:grid; gap:1rem; margin:1.6rem 0;}
+  .controle-card{
+    border:1.5px solid var(--lijn);
+    border-radius:9px;
+    padding:1.2rem 1.4rem;
+    background:#fff;
+    display:flex;
+    gap:1rem;
+    align-items:flex-start;
+  }
+  .controle-card .ic{
+    flex-shrink:0;
+    width:2.6rem; height:2.6rem;
+    border-radius:50%;
+    background:var(--oranje-licht);
+    color:var(--oranje-donker);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Courier New',monospace;
+    font-weight:700;
+    font-size:0.95rem;
+  }
+  .controle-card.mengsel .ic{background:var(--oranje); color:#fff;}
+  .controle-card h4{margin:0 0 0.35rem; font-size:1.05rem; color:var(--inkt);}
+  .controle-card p{margin:0; font-size:0.97rem;}
+
+  /* tabellen */
+  table.les-tabel{
+    width:100%;
+    border-collapse:collapse;
+    margin:1.6rem 0;
+    font-size:0.95rem;
+    background:#fff;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(34,29,23,0.06);
+  }
+  table.les-tabel th{
+    background:var(--inkt);
+    color:#fff;
+    text-align:left;
+    padding:0.7rem 0.9rem;
+    font-family:'Courier New',monospace;
+    font-size:0.74rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  table.les-tabel td{
+    padding:0.75rem 0.9rem;
+    border-bottom:1px solid var(--lijn);
+    vertical-align:top;
+  }
+  table.les-tabel tr:last-child td{border-bottom:none;}
+  table.les-tabel tr:nth-child(even) td{background:rgba(244,140,0,0.04);}
+
+  /* biedverloop / handen */
+  .handen{display:grid; gap:1rem; margin:1.5rem 0;}
+  @media(min-width:600px){.handen{grid-template-columns:1fr 1fr;}}
+  .hand{
+    background:#fff;
+    border:1.5px solid var(--lijn);
+    border-radius:10px;
+    padding:1.1rem 1.3rem;
+  }
+  .hand .speler{
+    font-family:'Courier New',monospace;
+    font-size:0.74rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--oranje-donker);
+    margin-bottom:0.6rem;
+  }
+  .hand .suit-row{display:flex; gap:0.6rem; font-size:1rem; margin-bottom:0.25rem;}
+  .suit-row .symbol{width:1.2rem; font-weight:700;}
+
+  .biedverloop{
+    background:var(--oranje-licht);
+    border-radius:10px;
+    padding:1.1rem 1.3rem;
+    margin:1.4rem 0;
+  }
+  .biedverloop .rij{
+    display:flex;
+    justify-content:space-between;
+    font-family:'Courier New',monospace;
+    font-size:0.95rem;
+    padding:0.4rem 0;
+    border-bottom:1px dashed rgba(244,140,0,0.3);
+  }
+  .biedverloop .rij:last-child{border-bottom:none;}
+  .biedverloop .rij .uitleg{
+    flex:1;
+    font-family:'Iowan Old Style',Georgia,serif;
+    font-style:italic;
+    color:var(--grijs);
+    font-size:0.88rem;
+    text-align:right;
+  }
+
+  /* route stappen */
+  .route{display:flex; flex-wrap:wrap; gap:0; margin:1.6rem 0; border-radius:10px; overflow:hidden; border:1.5px solid var(--lijn);}
+  .route-stap{
+    flex:1 1 120px;
+    background:#fff;
+    padding:0.9rem 0.8rem;
+    border-right:1px solid var(--lijn);
+    font-size:0.88rem;
+  }
+  .route-stap:last-child{border-right:none; background:var(--oranje); color:#fff;}
+  .route-stap .stapnr{
+    font-family:'Courier New',monospace;
+    font-size:0.7rem;
+    color:var(--oranje-donker);
+    display:block;
+    margin-bottom:0.3rem;
+  }
+  .route-stap:last-child .stapnr{color:#2a1500;}
+
+  /* vuistregels lijst */
+  .regel-lijst{list-style:none; margin:1.5rem 0; padding:0;}
+  .regel-lijst li{
+    display:flex;
+    gap:0.85rem;
+    padding:0.9rem 0;
+    border-bottom:1px solid var(--lijn);
+    font-size:1rem;
+  }
+  .regel-lijst li:last-child{border-bottom:none;}
+  .regel-lijst .icoon{
+    flex-shrink:0;
+    width:1.9rem; height:1.9rem;
+    border-radius:50%;
+    background:var(--oranje-licht);
+    color:var(--oranje-donker);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-family:'Courier New',monospace;
+    font-size:0.85rem;
+  }
+
+  .vuistregel{
+    display:flex;
+    gap:0.7rem;
+    align-items:baseline;
+    padding:0.65rem 0;
+    border-bottom:1px solid var(--lijn);
+    font-size:0.99rem;
+  }
+  .vuistregel:last-child{border-bottom:none;}
+  .vuistregel .bid{font-family:'Courier New',monospace; font-weight:700; color:var(--oranje-donker); white-space:nowrap;}
+
+  .samenvatting{
+    background:var(--inkt);
+    color:var(--oranje-licht);
+    border-radius:14px;
+    padding:2.1rem 1.9rem;
+    margin:1.4rem 0;
+  }
+  .samenvatting h2{color:#fff;}
+  .samenvatting p{color:#e8d9c2;}
+  .samenvatting .kern{
+    font-style:italic;
+    border-top:1px solid rgba(255,255,255,0.18);
+    padding-top:1.1rem;
+    margin-top:1.2rem;
+    color:#fff;
+  }
+
+  footer{
+    text-align:center;
+    padding:2rem 1.5rem 3rem;
+    font-family:'Courier New',monospace;
+    font-size:0.76rem;
+    letter-spacing:0.08em;
+    color:rgba(34,29,23,0.4);
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .fade-in{animation:fadeIn 0.5s ease-out both;}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-suits">
+    <span class="r">♥</span><span class="r">♦</span><span class="z">♠</span><span class="z">♣</span>
+  </div>
+  <div class="hero-inner">
+    <div class="eyebrow">Bridgeles · Slemonderzoek</div>
+    <h1>Controlebiedingen bij slemonderzoek</h1>
+    <p class="lead">Eerst steun tonen, dan controles uitwisselen, daarna pas RKCB.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="kortidee">
+    <div class="kort-idee fade-in">
+      <span class="label">Kort idee</span>
+      <p>RKCB vertelt hoeveel keycards jullie hebben. Controlebiedingen helpen ontdekken of een zijkleur veilig genoeg is <strong style="color:var(--oranje);">voordat</strong> je slem biedt.</p>
+    </div>
+  </section>
+
+  <section id="probleem">
+    <h2><span class="nr">1</span>Waarom RKCB niet genoeg is</h2>
+    <p>RKCB, of Roman Keycard Blackwood, is een handige vraagconventie. Je vraagt hoeveel keycards jullie samen hebben — dat zijn de vier azen plus de heer van de troefkleur.</p>
+    <p>Maar RKCB vertelt niet <em>in welke kleur</em> jullie kwetsbaar zijn. Soms missen jullie in een zijkleur de juiste controle. Dan kunnen de tegenstanders daar direct twee slagen maken, bijvoorbeeld met aas en heer in die kleur.</p>
+
+    <div class="kaart-rij fade-in">
+      <div class="kaart r"><span class="rank">A</span><span class="suit-symbol">♣</span></div>
+      <div class="kaart r"><span class="rank">H</span><span class="suit-symbol">♣</span></div>
+    </div>
+    <p style="margin-top:-0.6rem; font-size:0.92rem; color:var(--grijs);">Aas en heer klaveren bij de tegenpartij — twee snelle slagen, ook al "klopten" alle keycards volgens RKCB.</p>
+
+    <p>Daarom gebruik je <strong>vóór</strong> RKCB eerst controlebiedingen. Zo onderzoek je of de zijkleuren veilig genoeg zijn.</p>
+  </section>
+
+  <section id="definitie">
+    <h2><span class="nr">2</span>Wat is een controlebieding?</h2>
+    <p>Een controlebieding is een bod in een zijkleur. Je zegt daarmee: in deze kleur kunnen de tegenstanders niet zomaar twee snelle slagen maken.</p>
+    <p>Je biedt controles pas als de troefkleur min of meer vaststaat en jullie genoeg kracht hebben om verder te onderzoeken.</p>
+
+    <div class="controle-grid">
+      <div class="controle-card fade-in">
+        <div class="ic">1</div>
+        <div>
+          <h4>Eerste controle</h4>
+          <p>Aas <span class="suit r">♦</span> of renonce. De tegenpartij kan in die kleur niet zomaar twee snelle slagen maken.</p>
+        </div>
+      </div>
+      <div class="controle-card fade-in">
+        <div class="ic">2</div>
+        <div>
+          <h4>Tweede controle</h4>
+          <p>Heer <span class="suit z">♠</span> of singleton. Dit helpt om de tweede slag in die kleur tegen te houden.</p>
+        </div>
+      </div>
+      <div class="controle-card mengsel fade-in">
+        <div class="ic">M</div>
+        <div>
+          <h4>Gemengde controle</h4>
+          <p>Eerste óf tweede controle — niet gespecificeerd welke. Je toont dat de kleur voor klein slem voldoende gedekt lijkt.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="kaart-rij fade-in">
+      <div class="kaart z"><span class="rank">H</span><span class="suit-symbol">♠</span></div>
+      <div class="kaart z singleton"><span class="rank">7</span><span class="suit-symbol">♣</span></div>
+    </div>
+    <p style="margin-top:-0.6rem; font-size:0.92rem; color:var(--grijs);">Beide zijn een tweede controle: de heer schoppen, of een singleton in een andere kleur.</p>
+
+    <div class="letop fade-in">
+      <span class="label">Let op bij groot slem</span>
+      <p>Voor klein slem is een gemengde controle vaak genoeg. Voor groot slem wil je meestal preciezer weten of partner echt eerste controle heeft.</p>
+    </div>
+  </section>
+
+  <section id="volgorde">
+    <h2><span class="nr">3</span>De juiste volgorde</h2>
+
+    <div class="route">
+      <div class="route-stap fade-in"><span class="stapnr">①</span>Partner opent</div>
+      <div class="route-stap fade-in"><span class="stapnr">②</span>Jij toont steun</div>
+      <div class="route-stap fade-in"><span class="stapnr">③</span>Controles uitwisselen</div>
+      <div class="route-stap fade-in"><span class="stapnr">④</span>Eventueel RKCB</div>
+      <div class="route-stap fade-in"><span class="stapnr">⑤</span>Eventueel troefvrouw</div>
+      <div class="route-stap fade-in"><span class="stapnr">⑥</span>Slem — of afremmen</div>
+    </div>
+
+    <div class="letop fade-in">
+      <span class="label">Belangrijk</span>
+      <p>Spring niet automatisch naar de manche met elke sterke hand. Een sprong naar 4<span class="suit r">♥</span> of 4<span class="suit z">♠</span> neemt biedruimte weg. Met sleminteresse bied je rustiger.</p>
+    </div>
+  </section>
+
+  <section id="verwarring">
+    <h2><span class="nr">4</span>Gewone steun of slemonderzoek?</h2>
+    <em class="kicker">Het punt dat vaak verwarring geeft: een bod op 2-niveau is niet automatisch een controlebod.</em>
+
+    <table class="les-tabel">
+      <tr><th>Biedverloop</th><th>Kracht</th><th>Betekenis</th></tr>
+      <tr>
+        <td class="mono">1<span class="suit r">♥</span> – 2<span class="suit r">♥</span></td>
+        <td>~6–9 punten</td>
+        <td>Gewone hartensteun. Geen controlebod.</td>
+      </tr>
+      <tr>
+        <td class="mono">1<span class="suit r">♥</span> – 4<span class="suit r">♥</span></td>
+        <td>12–15 punten met steun, of verdelend</td>
+        <td>We spelen de manche. Geen sleminteresse, geen controlebiedingen.</td>
+      </tr>
+      <tr>
+        <td class="mono">1<span class="suit r">♥</span> – sterk steunbod</td>
+        <td>16+ punten, of 14–15 met een mooie hand</td>
+        <td>Ruimte houden om controles te bieden.</td>
+      </tr>
+    </table>
+
+    <h3>Voorbeeld: partner opent 1<span class="suit r">♥</span></h3>
+    <p>Heb je 6–9 punten en hartensteun? Dan bied je meestal 2<span class="suit r">♥</span>. Dat zegt: ik steun je, maar ik ben niet sterk.</p>
+    <p>Heb je genoeg voor de manche, maar geen sleminteresse? Dan kan 4<span class="suit r">♥</span> prima zijn.</p>
+    <p>Heb je 16+ punten, of 14–15 punten met een mooie hand en sleminteresse? Dan is 4<span class="suit r">♥</span> vaak te snel. Je wilt biedruimte houden voor controles.</p>
+
+    <h3>Wat bied je dan wel met sleminteresse?</h3>
+    <p>Je kiest een <strong>forcing route</strong> — een route waarbij partner niet mag passen voordat de manche is bereikt. Zo blijft er ruimte voor controlebiedingen.</p>
+
+    <ul class="regel-lijst">
+      <li><span class="icoon">A</span><span>Speel je <strong>Jacoby 2SA</strong>? Dan is 1<span class="suit r">♥</span> – 2SA een goed bod: mancheforcing, hartensteun en vaak sleminteresse. Denk aan 16+ punten, of 14–15 punten met een mooie hand.</span></li>
+      <li><span class="icoon">B</span><span>Speel je geen Jacoby 2SA? Dan kun je eerst een <strong>nieuwe kleur</strong> bieden, als dat bij jullie forcing is. Daarna steun je harten.</span></li>
+      <li><span class="icoon">C</span><span>Hebben jullie afgesproken dat <strong>3SA</strong> na 1<span class="suit r">♥</span> sterke hartensteun toont? Dan kan 1<span class="suit r">♥</span> – 3SA ook — maar alleen met die afspraak.</span></li>
+    </ul>
+
+    <h3>Voorbeeld met Jacoby 2SA</h3>
+    <div class="biedverloop fade-in">
+      <div class="rij"><span class="mono">1<span class="suit r">♥</span></span><span class="mono">2SA</span><span class="uitleg">Zuid toont sterke hartensteun, mancheforcing</span></div>
+      <div class="rij"><span class="mono">3<span class="suit z">♣</span></span><span class="mono">3<span class="suit z">♠</span></span><span class="uitleg">Controles in zijkleuren</span></div>
+      <div class="rij"><span class="mono">4<span class="suit r">♦</span></span><span class="mono">4SA</span><span class="uitleg">Ruiten gedekt → RKCB</span></div>
+    </div>
+
+    <p>Kort gezegd: met sleminteresse kies je niet meteen een eindbod. Je kiest een forcing route, zodat jullie eerst controles kunnen bieden.</p>
+
+    <div class="letop fade-in">
+      <span class="label">Afspraak nodig</span>
+      <p>Kies samen één route voor sterke steun: Jacoby 2SA, een forcing nieuwe kleur, of 3SA als sterke steun. Zonder afspraak kan partner je bod verkeerd begrijpen.</p>
+    </div>
+  </section>
+
+  <section id="voorbeeld">
+    <h2><span class="nr">5</span>Voorbeeld aan tafel</h2>
+    <p>Stel: noord opent 1<span class="suit r">♦</span> en zuid heeft sterke ruitensteun.</p>
+
+    <div class="handen">
+      <div class="hand fade-in">
+        <div class="speler">Noord</div>
+        <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♠</span><span>H 9 4</span></div>
+        <div class="suit-row"><span class="symbol" style="color:var(--rood);">♥</span><span>A H 8 2</span></div>
+        <div class="suit-row"><span class="symbol" style="color:var(--rood);">♦</span><span>A H V 6 3</span></div>
+        <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♣</span><span>9 4</span></div>
+      </div>
+      <div class="hand fade-in">
+        <div class="speler">Zuid</div>
+        <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♠</span><span>A V 3</span></div>
+        <div class="suit-row"><span class="symbol" style="color:var(--rood);">♥</span><span>V 6 3</span></div>
+        <div class="suit-row"><span class="symbol" style="color:var(--rood);">♦</span><span>B 9 4 2</span></div>
+        <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♣</span><span>A H V 8</span></div>
+      </div>
+    </div>
+
+    <p>Mogelijk biedverloop, als jullie hebben afgesproken dat de troefkleur vaststaat en zijkleurbiedingen controles kunnen zijn:</p>
+
+    <div class="biedverloop fade-in">
+      <div class="rij"><span class="mono">1<span class="suit r">♦</span></span><span class="mono">2<span class="suit r">♦</span></span><span class="uitleg">Zuid toont ruitensteun</span></div>
+      <div class="rij"><span class="mono">3<span class="suit z">♣</span></span><span class="mono">3<span class="suit z">♠</span></span><span class="uitleg">Controles in zijkleuren</span></div>
+      <div class="rij"><span class="mono">4<span class="suit r">♥</span></span><span class="mono">4SA</span><span class="uitleg">Harten gedekt → RKCB</span></div>
+      <div class="rij"><span class="mono">…</span><span class="mono">6<span class="suit r">♦</span></span><span class="uitleg">Keycards goed → slem</span></div>
+    </div>
+
+    <div class="letop fade-in">
+      <span class="label">Afspraak nodig</span>
+      <p>Na 1<span class="suit r">♦</span> – 2<span class="suit r">♦</span> kan 3<span class="suit z">♣</span> natuurlijk zijn of een controlebod. Dat hangt af van jullie systeem. Spreek dus af wanneer zijkleurbiedingen controles zijn.</p>
+    </div>
+  </section>
+
+  <section id="spelregels">
+    <h2><span class="nr">6</span>Drie vaste spelregels</h2>
+    <ul class="regel-lijst">
+      <li><span class="icoon">1</span><span><strong>Geen controlebod in de troefkleur.</strong> Een controlebod is normaal een bod in een zijkleur. Als iemand op mancheniveau de troefkleur biedt, is dat vaak afremmen.</span></li>
+      <li><span class="icoon">2</span><span><strong>Overslaan geeft informatie.</strong> Als iemand een kleur had kunnen bieden, maar die overslaat, ontkent hij meestal controle in die kleur.</span></li>
+      <li><span class="icoon">3</span><span><strong>Bied economisch.</strong> Bied de goedkoopste controle die je hebt. Zo houd je ruimte over voor de andere kleuren.</span></li>
+    </ul>
+  </section>
+
+  <section id="vuistregels">
+    <h2><span class="nr">7</span>Handige vuistregels</h2>
+    <div class="vuistregel"><span class="bid">1<span class="suit r">♥</span> – 2<span class="suit r">♥</span></span><span>gewone steun, ~6–9 punten. Geen controlebod.</span></div>
+    <div class="vuistregel"><span class="bid">1<span class="suit r">♥</span> – 4<span class="suit r">♥</span></span><span>manche bieden. Dit kan prima zijn, maar het laat weinig ruimte over.</span></div>
+    <div class="vuistregel"><span class="bid">16+ punten</span><span>of 14–15 met een mooie hand: bij sleminteresse kies je een forcing route, bijv. 2SA Jacoby of eerst een forcing nieuwe kleur.</span></div>
+    <div class="vuistregel"><span class="bid">Controles</span><span>gebruik je vóór RKCB.</span></div>
+    <div class="vuistregel"><span class="bid">RKCB</span><span>gebruik je pas als je weet dat de zijkleuren voldoende veilig zijn.</span></div>
+  </section>
+
+  <section id="samenvatting">
+    <div class="samenvatting fade-in">
+      <h2 style="display:block;">Kort gezegd</h2>
+      <p>RKCB vertelt je <em>hoeveel</em> keycards er zijn. Controlebiedingen vertellen je <em>waar</em> de tegenpartij geen kans krijgt om twee slagen te pakken.</p>
+      <p class="kern">Eerst steun tonen, dan controles uitwisselen, en daarna pas keycards vragen.</p>
+    </div>
+  </section>
+
+</div>
+
+
+<footer>BRIDGELES · CONTROLEBIEDINGEN BIJ SLEMONDERZOEK</footer>
+
+</body>
+</html>
