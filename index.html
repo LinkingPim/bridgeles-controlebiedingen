@@ -7,7 +7,7 @@
 <style>
   :root{
     --oranje:       #f48c00;
- 
+    --oranje-donker:#c96f00;
     --oranje-licht: #fff1de;
     --inkt:         #221d17;
     --rood:         #c4263a;
@@ -15,6 +15,7 @@
     --grijs:        #6b6358;
     --vellum:       #fffaf2;
     --lijn:         rgba(34,29,23,0.12);
+    --groen:        #2f7d4f;
   }
 
   *{box-sizing:border-box;}
@@ -32,7 +33,7 @@
   .hero{
     background:var(--oranje);
     color:#2a1500;
-    padding:4.5rem 1.5rem 3.5rem;
+    padding:3.4rem 1.5rem 2.4rem;
     position:relative;
     overflow:hidden;
   }
@@ -55,7 +56,7 @@
   }
   .hero-suits .r{color:var(--rood);}
   .hero-suits .z{color:var(--zwart);}
-  .hero-inner{max-width:760px; margin:0 auto; position:relative; z-index:2;}
+  .hero-inner{max-width:860px; margin:0 auto; position:relative; z-index:2;}
   .eyebrow{
     font-family:'Courier New',monospace;
     font-size:0.78rem;
@@ -65,22 +66,72 @@
     margin-bottom:0.9rem;
   }
   .hero h1{
-    font-size:clamp(2rem,5vw,3rem);
-    margin:0 0 0.9rem;
+    font-size:clamp(1.8rem,5vw,2.7rem);
+    margin:0 0 0.7rem;
     line-height:1.1;
     color:#1f1100;
   }
   .hero p.lead{
-    font-size:1.12rem;
+    font-size:1.08rem;
     max-width:560px;
     margin:0;
     color:#3a1f00;
   }
 
-  .wrap{max-width:760px; margin:0 auto; padding:0 1.5rem;}
+  /* ===== TABS ===== */
+  .tabbar-wrap{
+    background:var(--inkt);
+    position:sticky;
+    top:0;
+    z-index:50;
+    box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  }
+  .tabbar{
+    max-width:860px;
+    margin:0 auto;
+    display:flex;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:0 0 auto;
+    background:none;
+    border:none;
+    color:#cbb89a;
+    font-family:'Courier New',monospace;
+    font-size:0.78rem;
+    letter-spacing:0.04em;
+    padding:0.95rem 1.05rem;
+    cursor:pointer;
+    white-space:nowrap;
+    border-bottom:3px solid transparent;
+    transition:color 0.15s, border-color 0.15s;
+  }
+  .tab-btn:hover{color:#fff;}
+  .tab-btn.actief{
+    color:#fff;
+    border-bottom-color:var(--oranje);
+  }
+  .tab-btn .tabnr{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:1.3rem; height:1.3rem;
+    border-radius:50%;
+    background:rgba(255,255,255,0.12);
+    margin-right:0.45rem;
+    font-size:0.7rem;
+  }
+  .tab-btn.actief .tabnr{background:var(--oranje); color:#2a1500;}
 
-  section{padding:3.2rem 0; border-bottom:1px solid var(--lijn);}
-  section:last-of-type{border-bottom:none;}
+  .wrap{max-width:860px; margin:0 auto; padding:0 1.5rem;}
+
+  .tab-panel{display:none;}
+  .tab-panel.actief{display:block;}
+
+  section{padding:2.6rem 0;}
 
   .nr{
     display:inline-flex;
@@ -160,12 +211,7 @@
   .letop p{margin:0; font-size:0.99rem;}
 
   /* speelkaart iconen */
-  .kaart-rij{
-    display:flex;
-    gap:0.7rem;
-    flex-wrap:wrap;
-    margin:1.5rem 0;
-  }
+  .kaart-rij{display:flex; gap:0.7rem; flex-wrap:wrap; margin:1.5rem 0;}
   .kaart{
     width:62px; height:84px;
     background:#fff;
@@ -375,6 +421,234 @@
     color:rgba(34,29,23,0.4);
   }
 
+  /* ===== OEFENEN ===== */
+  .oef-intro{
+    background:var(--inkt);
+    color:#fff;
+    border-radius:10px;
+    padding:1.2rem 1.5rem;
+    margin-bottom:1.8rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+  .oef-intro p{margin:0; color:#e8d9c2; font-size:0.98rem;}
+  .oef-kaart{
+    background:#fff;
+    border:1.5px solid var(--lijn);
+    border-radius:10px;
+    padding:1.4rem 1.5rem;
+    margin-bottom:1.3rem;
+  }
+  .oef-kaart .oefnr{
+    font-family:'Courier New',monospace;
+    font-size:0.74rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--oranje-donker);
+    margin-bottom:0.5rem;
+    display:block;
+  }
+  .oef-situatie{font-size:1rem; margin-bottom:1rem; color:var(--grijs);}
+  .oef-hand-rij{display:flex; flex-wrap:wrap; gap:1rem; margin-bottom:1.1rem;}
+  .oef-hand{
+    background:var(--vellum);
+    border:1.5px solid var(--lijn);
+    border-radius:8px;
+    padding:0.9rem 1.1rem;
+    flex:1 1 200px;
+  }
+  .oef-hand .speler{
+    font-family:'Courier New',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--oranje-donker);
+    margin-bottom:0.5rem;
+  }
+  .oef-vraag{font-size:1.02rem; font-weight:600; margin-bottom:0.9rem;}
+
+  /* biedbox */
+  .biedbox{
+    border:1.5px solid var(--lijn);
+    border-radius:10px;
+    overflow:hidden;
+    background:var(--vellum);
+    margin-bottom:0.4rem;
+  }
+  .biedbox-rij{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    border-bottom:1px solid var(--lijn);
+  }
+  .biedbox-rij:last-child{border-bottom:none;}
+  .biedbox-rij.pasrij{grid-template-columns:1fr;}
+  .biedkaart{
+    background:#fff;
+    border:none;
+    border-right:1px solid var(--lijn);
+    padding:0.55rem 0.3rem;
+    font-family:'Courier New',monospace;
+    font-size:0.92rem;
+    font-weight:700;
+    cursor:pointer;
+    color:var(--inkt);
+    transition:background 0.15s, color 0.15s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0.15rem;
+  }
+  .biedkaart:last-child{border-right:none;}
+  .biedkaart:hover:not(:disabled){background:var(--oranje-licht);}
+  .biedkaart .bk-suit.r{color:var(--rood);}
+  .biedkaart .bk-suit.z{color:var(--zwart);}
+  .biedkaart.pas{
+    background:var(--inkt);
+    color:#fff;
+    letter-spacing:0.1em;
+    font-size:0.8rem;
+    text-transform:uppercase;
+  }
+  .biedkaart.pas:hover:not(:disabled){background:#3a2f22;}
+  .biedkaart:disabled{cursor:default; opacity:0.45;}
+  .biedkaart.gekozen-goed{background:#e9f5ed; color:var(--groen); opacity:1;}
+  .biedkaart.gekozen-fout{background:#fbe9ea; color:var(--rood); opacity:1;}
+  .biedkaart.toon-goed{background:#e9f5ed; color:var(--groen); opacity:1;}
+
+  .oef-gekozen{
+    font-family:'Courier New',monospace;
+    font-size:0.85rem;
+    color:var(--grijs);
+    margin:0.6rem 0 0;
+  }
+  .oef-gekozen .nadruk{font-weight:700; color:var(--inkt);}
+
+  .oef-opties{display:flex; flex-direction:column; gap:0.6rem;}
+  .oef-optie{
+    text-align:left;
+    background:var(--vellum);
+    border:1.5px solid var(--lijn);
+    border-radius:8px;
+    padding:0.7rem 1rem;
+    font-family:'Courier New',monospace;
+    font-size:0.95rem;
+    cursor:pointer;
+    color:var(--inkt);
+    transition:background 0.15s, border-color 0.15s;
+  }
+  .oef-optie:hover{background:var(--oranje-licht); border-color:var(--oranje);}
+  .oef-optie.goed{background:#e9f5ed; border-color:var(--groen); color:var(--groen); font-weight:700;}
+  .oef-optie.fout{background:#fbe9ea; border-color:var(--rood); color:var(--rood); font-weight:700;}
+  .oef-optie:disabled{cursor:default;}
+  .oef-uitleg{
+    margin-top:0.9rem;
+    padding-top:0.9rem;
+    border-top:1px dashed var(--lijn);
+    font-size:0.93rem;
+    color:var(--grijs);
+    font-family:'Iowan Old Style',Georgia,serif;
+    display:none;
+  }
+  .oef-uitleg.zichtbaar{display:block;}
+
+  /* ===== QUIZ ===== */
+  .quiz-intro{
+    background:var(--inkt);
+    color:#fff;
+    border-radius:10px;
+    padding:1.2rem 1.5rem;
+    margin-bottom:1.8rem;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+  .quiz-intro p{margin:0; color:#e8d9c2; font-size:0.98rem;}
+  .quiz-score{
+    font-family:'Courier New',monospace;
+    font-size:1.3rem;
+    font-weight:700;
+    color:var(--oranje);
+    white-space:nowrap;
+  }
+  .quiz-vraag{
+    background:#fff;
+    border:1.5px solid var(--lijn);
+    border-radius:10px;
+    padding:1.4rem 1.5rem;
+    margin-bottom:1.3rem;
+  }
+  .quiz-vraag .vraagnr{
+    font-family:'Courier New',monospace;
+    font-size:0.74rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--oranje-donker);
+    margin-bottom:0.5rem;
+    display:block;
+  }
+  .quiz-vraag .vraagtekst{
+    font-size:1.05rem;
+    margin-bottom:1rem;
+    font-weight:600;
+  }
+  .quiz-opties{display:flex; flex-direction:column; gap:0.6rem;}
+  .quiz-optie{
+    text-align:left;
+    background:var(--vellum);
+    border:1.5px solid var(--lijn);
+    border-radius:8px;
+    padding:0.75rem 1rem;
+    font-family:'Iowan Old Style',Georgia,serif;
+    font-size:0.98rem;
+    cursor:pointer;
+    color:var(--inkt);
+    transition:background 0.15s, border-color 0.15s;
+  }
+  .quiz-optie:hover{background:var(--oranje-licht); border-color:var(--oranje);}
+  .quiz-optie.goed{
+    background:#e9f5ed;
+    border-color:var(--groen);
+    color:var(--groen);
+    font-weight:600;
+  }
+  .quiz-optie.fout{
+    background:#fbe9ea;
+    border-color:var(--rood);
+    color:var(--rood);
+    font-weight:600;
+  }
+  .quiz-optie:disabled{cursor:default;}
+  .quiz-uitleg{
+    margin-top:0.9rem;
+    padding-top:0.9rem;
+    border-top:1px dashed var(--lijn);
+    font-size:0.92rem;
+    color:var(--grijs);
+    display:none;
+  }
+  .quiz-uitleg.zichtbaar{display:block;}
+  .quiz-footer{
+    text-align:center;
+    margin-top:1.5rem;
+  }
+  .quiz-reset-btn{
+    background:var(--oranje);
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:0.7rem 1.6rem;
+    font-family:'Courier New',monospace;
+    font-size:0.85rem;
+    letter-spacing:0.04em;
+    cursor:pointer;
+  }
+  .quiz-reset-btn:hover{background:var(--oranje-donker);}
+
   @media (prefers-reduced-motion: no-preference){
     .fade-in{animation:fadeIn 0.5s ease-out both;}
     @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
@@ -394,206 +668,601 @@
   </div>
 </div>
 
+<div class="tabbar-wrap">
+  <div class="tabbar" id="tabbar">
+    <button class="tab-btn actief" data-tab="t0"><span class="tabnr">·</span>Kort idee</button>
+    <button class="tab-btn" data-tab="t1"><span class="tabnr">1</span>RKCB</button>
+    <button class="tab-btn" data-tab="t2"><span class="tabnr">2</span>Controlebieding</button>
+    <button class="tab-btn" data-tab="t3"><span class="tabnr">3</span>Volgorde</button>
+    <button class="tab-btn" data-tab="t4"><span class="tabnr">4</span>Steun of slem?</button>
+    <button class="tab-btn" data-tab="t5"><span class="tabnr">5</span>Voorbeeld</button>
+    <button class="tab-btn" data-tab="t6"><span class="tabnr">6</span>Spelregels</button>
+    <button class="tab-btn" data-tab="t7"><span class="tabnr">7</span>Vuistregels</button>
+    <button class="tab-btn" data-tab="toef"><span class="tabnr">★</span>Oefenen</button>
+    <button class="tab-btn" data-tab="tq"><span class="tabnr">?</span>Quiz</button>
+  </div>
+</div>
+
 <div class="wrap">
 
-  <section id="kortidee">
-    <div class="kort-idee fade-in">
-      <span class="label">Kort idee</span>
-      <p>RKCB vertelt hoeveel keycards jullie hebben. Controlebiedingen helpen ontdekken of een zijkleur veilig genoeg is <strong style="color:var(--oranje);">voordat</strong> je slem biedt.</p>
-    </div>
-  </section>
+  <!-- TAB 0: KORT IDEE -->
+  <div class="tab-panel actief" id="t0">
+    <section>
+      <div class="kort-idee fade-in">
+        <span class="label">Kort idee</span>
+        <p>RKCB vertelt hoeveel keycards jullie hebben. Controlebiedingen helpen ontdekken of een zijkleur veilig genoeg is <strong style="color:var(--oranje);">voordat</strong> je slem biedt.</p>
+      </div>
+    </section>
+  </div>
 
-  <section id="probleem">
-    <h2><span class="nr">1</span>Waarom RKCB niet genoeg is</h2>
-    <p>RKCB, of Roman Keycard Blackwood, is een handige vraagconventie. Je vraagt hoeveel keycards jullie samen hebben — dat zijn de vier azen plus de heer van de troefkleur.</p>
-    <p>Maar RKCB vertelt niet <em>in welke kleur</em> jullie kwetsbaar zijn. Soms missen jullie in een zijkleur de juiste controle. Dan kunnen de tegenstanders daar direct twee slagen maken, bijvoorbeeld met aas en heer in die kleur.</p>
+  <!-- TAB 1: WAAROM RKCB NIET GENOEG IS -->
+  <div class="tab-panel" id="t1">
+    <section>
+      <h2><span class="nr">1</span>Waarom RKCB niet genoeg is</h2>
+      <p>RKCB, of Roman Keycard Blackwood, is een handige vraagconventie. Je vraagt hoeveel keycards jullie samen hebben — dat zijn de vier azen plus de heer van de troefkleur.</p>
+      <p>Maar RKCB vertelt niet <em>in welke kleur</em> jullie kwetsbaar zijn. Soms missen jullie in een zijkleur de juiste controle. Dan kunnen de tegenstanders daar direct twee slagen maken, bijvoorbeeld met aas en heer in die kleur.</p>
 
-    <div class="kaart-rij fade-in">
-      <div class="kaart r"><span class="rank">A</span><span class="suit-symbol">♣</span></div>
-      <div class="kaart r"><span class="rank">H</span><span class="suit-symbol">♣</span></div>
-    </div>
-    <p style="margin-top:-0.6rem; font-size:0.92rem; color:var(--grijs);">Aas en heer klaveren bij de tegenpartij — twee snelle slagen, ook al "klopten" alle keycards volgens RKCB.</p>
+      <div class="kaart-rij fade-in">
+        <div class="kaart z"><span class="rank">A</span><span class="suit-symbol">♣</span></div>
+        <div class="kaart z"><span class="rank">H</span><span class="suit-symbol">♣</span></div>
+      </div>
+      <p style="margin-top:-0.6rem; font-size:0.92rem; color:var(--grijs);">Aas en heer klaveren bij de tegenpartij — twee snelle slagen, ook al "klopten" alle keycards volgens RKCB.</p>
 
-    <p>Daarom gebruik je <strong>vóór</strong> RKCB eerst controlebiedingen. Zo onderzoek je of de zijkleuren veilig genoeg zijn.</p>
-  </section>
+      <p>Daarom gebruik je <strong>vóór</strong> RKCB eerst controlebiedingen. Zo onderzoek je of de zijkleuren veilig genoeg zijn.</p>
+    </section>
+  </div>
 
-  <section id="definitie">
-    <h2><span class="nr">2</span>Wat is een controlebieding?</h2>
-    <p>Een controlebieding is een bod in een zijkleur. Je zegt daarmee: in deze kleur kunnen de tegenstanders niet zomaar twee snelle slagen maken.</p>
-    <p>Je biedt controles pas als de troefkleur min of meer vaststaat en jullie genoeg kracht hebben om verder te onderzoeken.</p>
+  <!-- TAB 2: WAT IS EEN CONTROLEBIEDING -->
+  <div class="tab-panel" id="t2">
+    <section>
+      <h2><span class="nr">2</span>Wat is een controlebieding?</h2>
+      <p>Een controlebieding is een bod in een zijkleur. Je zegt daarmee: in deze kleur kunnen de tegenstanders niet zomaar twee snelle slagen maken.</p>
+      <p>Je biedt controles pas als de troefkleur min of meer vaststaat en jullie genoeg kracht hebben om verder te onderzoeken.</p>
 
-    <div class="controle-grid">
-      <div class="controle-card fade-in">
-        <div class="ic">1</div>
-        <div>
-          <h4>Eerste controle</h4>
-          <p>Aas <span class="suit r">♦</span> of renonce. De tegenpartij kan in die kleur niet zomaar twee snelle slagen maken.</p>
+      <div class="controle-grid">
+        <div class="controle-card fade-in">
+          <div class="ic">1</div>
+          <div>
+            <h4>Eerste controle</h4>
+            <p>Aas <span class="suit r">♦</span> of renonce. De tegenpartij kan in die kleur niet zomaar twee snelle slagen maken.</p>
+          </div>
+        </div>
+        <div class="controle-card fade-in">
+          <div class="ic">2</div>
+          <div>
+            <h4>Tweede controle</h4>
+            <p>Heer <span class="suit z">♠</span> of singleton. Dit helpt om de tweede slag in die kleur tegen te houden.</p>
+          </div>
+        </div>
+        <div class="controle-card mengsel fade-in">
+          <div class="ic">M</div>
+          <div>
+            <h4>Gemengde controle</h4>
+            <p>Eerste óf tweede controle — niet gespecificeerd welke. Je toont dat de kleur voor klein slem voldoende gedekt lijkt.</p>
+          </div>
         </div>
       </div>
-      <div class="controle-card fade-in">
-        <div class="ic">2</div>
-        <div>
-          <h4>Tweede controle</h4>
-          <p>Heer <span class="suit z">♠</span> of singleton. Dit helpt om de tweede slag in die kleur tegen te houden.</p>
+
+      <div class="kaart-rij fade-in">
+        <div class="kaart z"><span class="rank">H</span><span class="suit-symbol">♠</span></div>
+        <div class="kaart z singleton"><span class="rank">7</span><span class="suit-symbol">♣</span></div>
+      </div>
+      <p style="margin-top:-0.6rem; font-size:0.92rem; color:var(--grijs);">Beide zijn een tweede controle: de heer schoppen, of een singleton in een andere kleur.</p>
+
+      <div class="letop fade-in">
+        <span class="label">Let op bij groot slem</span>
+        <p>Voor klein slem is een gemengde controle vaak genoeg. Voor groot slem wil je meestal preciezer weten of partner echt eerste controle heeft.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 3: DE JUISTE VOLGORDE -->
+  <div class="tab-panel" id="t3">
+    <section>
+      <h2><span class="nr">3</span>De juiste volgorde</h2>
+
+      <div class="route">
+        <div class="route-stap fade-in"><span class="stapnr">①</span>Partner opent</div>
+        <div class="route-stap fade-in"><span class="stapnr">②</span>Jij toont steun</div>
+        <div class="route-stap fade-in"><span class="stapnr">③</span>Controles uitwisselen</div>
+        <div class="route-stap fade-in"><span class="stapnr">④</span>Eventueel RKCB</div>
+        <div class="route-stap fade-in"><span class="stapnr">⑤</span>Eventueel troefvrouw</div>
+        <div class="route-stap fade-in"><span class="stapnr">⑥</span>Slem — of afremmen</div>
+      </div>
+
+      <div class="letop fade-in">
+        <span class="label">Belangrijk</span>
+        <p>Spring niet automatisch naar de manche met elke sterke hand. Een sprong naar 4<span class="suit r">♥</span> of 4<span class="suit z">♠</span> neemt biedruimte weg. Met sleminteresse bied je rustiger.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 4: GEWONE STEUN OF SLEMONDERZOEK -->
+  <div class="tab-panel" id="t4">
+    <section>
+      <h2><span class="nr">4</span>Gewone steun of slemonderzoek?</h2>
+      <em class="kicker">Het punt dat vaak verwarring geeft: een bod op 2-niveau is niet automatisch een controlebod.</em>
+
+      <table class="les-tabel">
+        <tr><th>Biedverloop</th><th>Kracht</th><th>Betekenis</th></tr>
+        <tr>
+          <td class="mono">1<span class="suit r">♥</span> – 2<span class="suit r">♥</span></td>
+          <td>~6–9 punten</td>
+          <td>Gewone hartensteun. Geen controlebod.</td>
+        </tr>
+        <tr>
+          <td class="mono">1<span class="suit r">♥</span> – 4<span class="suit r">♥</span></td>
+          <td>12–15 punten met steun, of verdelend</td>
+          <td>We spelen de manche. Geen sleminteresse, geen controlebiedingen.</td>
+        </tr>
+        <tr>
+          <td class="mono">1<span class="suit r">♥</span> – sterk steunbod</td>
+          <td>16+ punten, of 14–15 met een mooie hand</td>
+          <td>Ruimte houden om controles te bieden.</td>
+        </tr>
+      </table>
+
+      <h3>Voorbeeld: partner opent 1<span class="suit r">♥</span></h3>
+      <p>Heb je 6–9 punten en hartensteun? Dan bied je meestal 2<span class="suit r">♥</span>. Dat zegt: ik steun je, maar ik ben niet sterk.</p>
+      <p>Heb je genoeg voor de manche, maar geen sleminteresse? Dan kan 4<span class="suit r">♥</span> prima zijn.</p>
+      <p>Heb je 16+ punten, of 14–15 punten met een mooie hand en sleminteresse? Dan is 4<span class="suit r">♥</span> vaak te snel. Je wilt biedruimte houden voor controles.</p>
+
+      <h3>Wat bied je dan wel met sleminteresse?</h3>
+      <p>Je kiest een <strong>forcing route</strong> — een route waarbij partner niet mag passen voordat de manche is bereikt. Zo blijft er ruimte voor controlebiedingen.</p>
+
+      <ul class="regel-lijst">
+        <li><span class="icoon">A</span><span>Speel je <strong>Jacoby 2SA</strong>? Dan is 1<span class="suit r">♥</span> – 2SA een goed bod: mancheforcing, hartensteun en vaak sleminteresse. Denk aan 16+ punten, of 14–15 punten met een mooie hand.</span></li>
+        <li><span class="icoon">B</span><span>Speel je geen Jacoby 2SA? Dan kun je eerst een <strong>nieuwe kleur</strong> bieden, als dat bij jullie forcing is. Daarna steun je harten.</span></li>
+        <li><span class="icoon">C</span><span>Hebben jullie afgesproken dat <strong>3SA</strong> na 1<span class="suit r">♥</span> sterke hartensteun toont? Dan kan 1<span class="suit r">♥</span> – 3SA ook — maar alleen met die afspraak.</span></li>
+      </ul>
+
+      <h3>Voorbeeld met Jacoby 2SA</h3>
+      <div class="biedverloop fade-in">
+        <div class="rij"><span class="mono">1<span class="suit r">♥</span></span><span class="mono">2SA</span><span class="uitleg">Zuid toont sterke hartensteun, mancheforcing</span></div>
+        <div class="rij"><span class="mono">3<span class="suit z">♣</span></span><span class="mono">3<span class="suit z">♠</span></span><span class="uitleg">Controles in zijkleuren</span></div>
+        <div class="rij"><span class="mono">4<span class="suit r">♦</span></span><span class="mono">4SA</span><span class="uitleg">Ruiten gedekt → RKCB</span></div>
+      </div>
+
+      <p>Kort gezegd: met sleminteresse kies je niet meteen een eindbod. Je kiest een forcing route, zodat jullie eerst controles kunnen bieden.</p>
+
+      <div class="letop fade-in">
+        <span class="label">Afspraak nodig</span>
+        <p>Kies samen één route voor sterke steun: Jacoby 2SA, een forcing nieuwe kleur, of 3SA als sterke steun. Zonder afspraak kan partner je bod verkeerd begrijpen.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- TAB 5: VOORBEELD AAN TAFEL -->
+  <div class="tab-panel" id="t5">
+    <section>
+      <h2><span class="nr">5</span>Voorbeeld aan tafel</h2>
+      <p>Stel: noord opent 1<span class="suit r">♦</span> en zuid heeft sterke ruitensteun.</p>
+
+      <div class="handen">
+        <div class="hand fade-in">
+          <div class="speler">Noord</div>
+          <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♠</span><span>H 9</span></div>
+          <div class="suit-row"><span class="symbol" style="color:var(--rood);">♥</span><span>A H 8</span></div>
+          <div class="suit-row"><span class="symbol" style="color:var(--rood);">♦</span><span>A H V 6 3</span></div>
+          <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♣</span><span>A 9 4</span></div>
+        </div>
+        <div class="hand fade-in">
+          <div class="speler">Zuid</div>
+          <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♠</span><span>A V 3</span></div>
+          <div class="suit-row"><span class="symbol" style="color:var(--rood);">♥</span><span>V 6 3</span></div>
+          <div class="suit-row"><span class="symbol" style="color:var(--rood);">♦</span><span>B 9 4 2</span></div>
+          <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♣</span><span>H V 8</span></div>
         </div>
       </div>
-      <div class="controle-card mengsel fade-in">
-        <div class="ic">M</div>
-        <div>
-          <h4>Gemengde controle</h4>
-          <p>Eerste óf tweede controle — niet gespecificeerd welke. Je toont dat de kleur voor klein slem voldoende gedekt lijkt.</p>
-        </div>
+
+      <p>Mogelijk biedverloop, als jullie hebben afgesproken dat de troefkleur vaststaat en zijkleurbiedingen controles kunnen zijn:</p>
+
+      <div class="biedverloop fade-in">
+        <div class="rij"><span class="mono">1<span class="suit r">♦</span></span><span class="mono">2<span class="suit r">♦</span></span><span class="uitleg">Zuid toont ruitensteun</span></div>
+        <div class="rij"><span class="mono">3<span class="suit z">♣</span></span><span class="mono">3<span class="suit z">♠</span></span><span class="uitleg">Controles in zijkleuren</span></div>
+        <div class="rij"><span class="mono">4<span class="suit r">♥</span></span><span class="mono">4SA</span><span class="uitleg">Harten gedekt → RKCB</span></div>
+        <div class="rij"><span class="mono">…</span><span class="mono">6<span class="suit r">♦</span></span><span class="uitleg">Keycards goed → slem</span></div>
       </div>
-    </div>
 
-    <div class="kaart-rij fade-in">
-      <div class="kaart z"><span class="rank">H</span><span class="suit-symbol">♠</span></div>
-      <div class="kaart z singleton"><span class="rank">7</span><span class="suit-symbol">♣</span></div>
-    </div>
-    <p style="margin-top:-0.6rem; font-size:0.92rem; color:var(--grijs);">Beide zijn een tweede controle: de heer schoppen, of een singleton in een andere kleur.</p>
-
-    <div class="letop fade-in">
-      <span class="label">Let op bij groot slem</span>
-      <p>Voor klein slem is een gemengde controle vaak genoeg. Voor groot slem wil je meestal preciezer weten of partner echt eerste controle heeft.</p>
-    </div>
-  </section>
-
-  <section id="volgorde">
-    <h2><span class="nr">3</span>De juiste volgorde</h2>
-
-    <div class="route">
-      <div class="route-stap fade-in"><span class="stapnr">①</span>Partner opent</div>
-      <div class="route-stap fade-in"><span class="stapnr">②</span>Jij toont steun</div>
-      <div class="route-stap fade-in"><span class="stapnr">③</span>Controles uitwisselen</div>
-      <div class="route-stap fade-in"><span class="stapnr">④</span>Eventueel RKCB</div>
-      <div class="route-stap fade-in"><span class="stapnr">⑤</span>Eventueel troefvrouw</div>
-      <div class="route-stap fade-in"><span class="stapnr">⑥</span>Slem — of afremmen</div>
-    </div>
-
-    <div class="letop fade-in">
-      <span class="label">Belangrijk</span>
-      <p>Spring niet automatisch naar de manche met elke sterke hand. Een sprong naar 4<span class="suit r">♥</span> of 4<span class="suit z">♠</span> neemt biedruimte weg. Met sleminteresse bied je rustiger.</p>
-    </div>
-  </section>
-
-  <section id="verwarring">
-    <h2><span class="nr">4</span>Gewone steun of slemonderzoek?</h2>
-    <em class="kicker">Het punt dat vaak verwarring geeft: een bod op 2-niveau is niet automatisch een controlebod.</em>
-
-    <table class="les-tabel">
-      <tr><th>Biedverloop</th><th>Kracht</th><th>Betekenis</th></tr>
-      <tr>
-        <td class="mono">1<span class="suit r">♥</span> – 2<span class="suit r">♥</span></td>
-        <td>~6–9 punten</td>
-        <td>Gewone hartensteun. Geen controlebod.</td>
-      </tr>
-      <tr>
-        <td class="mono">1<span class="suit r">♥</span> – 4<span class="suit r">♥</span></td>
-        <td>12–15 punten met steun, of verdelend</td>
-        <td>We spelen de manche. Geen sleminteresse, geen controlebiedingen.</td>
-      </tr>
-      <tr>
-        <td class="mono">1<span class="suit r">♥</span> – sterk steunbod</td>
-        <td>16+ punten, of 14–15 met een mooie hand</td>
-        <td>Ruimte houden om controles te bieden.</td>
-      </tr>
-    </table>
-
-    <h3>Voorbeeld: partner opent 1<span class="suit r">♥</span></h3>
-    <p>Heb je 6–9 punten en hartensteun? Dan bied je meestal 2<span class="suit r">♥</span>. Dat zegt: ik steun je, maar ik ben niet sterk.</p>
-    <p>Heb je genoeg voor de manche, maar geen sleminteresse? Dan kan 4<span class="suit r">♥</span> prima zijn.</p>
-    <p>Heb je 16+ punten, of 14–15 punten met een mooie hand en sleminteresse? Dan is 4<span class="suit r">♥</span> vaak te snel. Je wilt biedruimte houden voor controles.</p>
-
-    <h3>Wat bied je dan wel met sleminteresse?</h3>
-    <p>Je kiest een <strong>forcing route</strong> — een route waarbij partner niet mag passen voordat de manche is bereikt. Zo blijft er ruimte voor controlebiedingen.</p>
-
-    <ul class="regel-lijst">
-      <li><span class="icoon">A</span><span>Speel je <strong>Jacoby 2SA</strong>? Dan is 1<span class="suit r">♥</span> – 2SA een goed bod: mancheforcing, hartensteun en vaak sleminteresse. Denk aan 16+ punten, of 14–15 punten met een mooie hand.</span></li>
-      <li><span class="icoon">B</span><span>Speel je geen Jacoby 2SA? Dan kun je eerst een <strong>nieuwe kleur</strong> bieden, als dat bij jullie forcing is. Daarna steun je harten.</span></li>
-      <li><span class="icoon">C</span><span>Hebben jullie afgesproken dat <strong>3SA</strong> na 1<span class="suit r">♥</span> sterke hartensteun toont? Dan kan 1<span class="suit r">♥</span> – 3SA ook — maar alleen met die afspraak.</span></li>
-    </ul>
-
-    <h3>Voorbeeld met Jacoby 2SA</h3>
-    <div class="biedverloop fade-in">
-      <div class="rij"><span class="mono">1<span class="suit r">♥</span></span><span class="mono">2SA</span><span class="uitleg">Zuid toont sterke hartensteun, mancheforcing</span></div>
-      <div class="rij"><span class="mono">3<span class="suit z">♣</span></span><span class="mono">3<span class="suit z">♠</span></span><span class="uitleg">Controles in zijkleuren</span></div>
-      <div class="rij"><span class="mono">4<span class="suit r">♦</span></span><span class="mono">4SA</span><span class="uitleg">Ruiten gedekt → RKCB</span></div>
-    </div>
-
-    <p>Kort gezegd: met sleminteresse kies je niet meteen een eindbod. Je kiest een forcing route, zodat jullie eerst controles kunnen bieden.</p>
-
-    <div class="letop fade-in">
-      <span class="label">Afspraak nodig</span>
-      <p>Kies samen één route voor sterke steun: Jacoby 2SA, een forcing nieuwe kleur, of 3SA als sterke steun. Zonder afspraak kan partner je bod verkeerd begrijpen.</p>
-    </div>
-  </section>
-
-  <section id="voorbeeld">
-    <h2><span class="nr">5</span>Voorbeeld aan tafel</h2>
-    <p>Stel: noord opent 1<span class="suit r">♦</span> en zuid heeft sterke ruitensteun.</p>
-
-    <div class="handen">
-      <div class="hand fade-in">
-        <div class="speler">Noord</div>
-        <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♠</span><span>H 9 4</span></div>
-        <div class="suit-row"><span class="symbol" style="color:var(--rood);">♥</span><span>A H 8 2</span></div>
-        <div class="suit-row"><span class="symbol" style="color:var(--rood);">♦</span><span>A H V 6 3</span></div>
-        <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♣</span><span>9 4</span></div>
+      <div class="letop fade-in">
+        <span class="label">Afspraak nodig</span>
+        <p>Na 1<span class="suit r">♦</span> – 2<span class="suit r">♦</span> kan 3<span class="suit z">♣</span> natuurlijk zijn of een controlebod. Dat hangt af van jullie systeem. Spreek dus af wanneer zijkleurbiedingen controles zijn.</p>
       </div>
-      <div class="hand fade-in">
-        <div class="speler">Zuid</div>
-        <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♠</span><span>A V 3</span></div>
-        <div class="suit-row"><span class="symbol" style="color:var(--rood);">♥</span><span>V 6 3</span></div>
-        <div class="suit-row"><span class="symbol" style="color:var(--rood);">♦</span><span>B 9 4 2</span></div>
-        <div class="suit-row"><span class="symbol" style="color:var(--zwart);">♣</span><span>A H V 8</span></div>
+    </section>
+  </div>
+
+  <!-- TAB 6: DRIE VASTE SPELREGELS -->
+  <div class="tab-panel" id="t6">
+    <section>
+      <h2><span class="nr">6</span>Drie vaste spelregels</h2>
+      <ul class="regel-lijst">
+        <li><span class="icoon">1</span><span><strong>Geen controlebod in de troefkleur.</strong> Een controlebod is normaal een bod in een zijkleur. Als iemand op mancheniveau de troefkleur biedt, is dat vaak afremmen.</span></li>
+        <li><span class="icoon">2</span><span><strong>Overslaan geeft informatie.</strong> Als iemand een kleur had kunnen bieden, maar die overslaat, ontkent hij meestal controle in die kleur.</span></li>
+        <li><span class="icoon">3</span><span><strong>Bied economisch.</strong> Bied de goedkoopste controle die je hebt. Zo houd je ruimte over voor de andere kleuren.</span></li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- TAB 7: VUISTREGELS + SAMENVATTING -->
+  <div class="tab-panel" id="t7">
+    <section>
+      <h2><span class="nr">7</span>Handige vuistregels</h2>
+      <div class="vuistregel"><span class="bid">1<span class="suit r">♥</span> – 2<span class="suit r">♥</span></span><span>gewone steun, ~6–9 punten. Geen controlebod.</span></div>
+      <div class="vuistregel"><span class="bid">1<span class="suit r">♥</span> – 4<span class="suit r">♥</span></span><span>manche bieden. Dit kan prima zijn, maar het laat weinig ruimte over.</span></div>
+      <div class="vuistregel"><span class="bid">16+ punten</span><span>of 14–15 met een mooie hand: bij sleminteresse kies je een forcing route, bijv. 2SA Jacoby of eerst een forcing nieuwe kleur.</span></div>
+      <div class="vuistregel"><span class="bid">Controles</span><span>gebruik je vóór RKCB.</span></div>
+      <div class="vuistregel"><span class="bid">RKCB</span><span>gebruik je pas als je weet dat de zijkleuren voldoende veilig zijn.</span></div>
+    </section>
+
+    <section style="padding-top:0;">
+      <div class="samenvatting fade-in">
+        <h2 style="display:block; color:#fff;">Kort gezegd</h2>
+        <p>RKCB vertelt je <em>hoeveel</em> keycards er zijn. Controlebiedingen vertellen je <em>waar</em> de tegenpartij geen kans krijgt om twee slagen te pakken.</p>
+        <p class="kern">Eerst steun tonen, dan controles uitwisselen, en daarna pas keycards vragen.</p>
       </div>
-    </div>
+    </section>
+  </div>
 
-    <p>Mogelijk biedverloop, als jullie hebben afgesproken dat de troefkleur vaststaat en zijkleurbiedingen controles kunnen zijn:</p>
+  <!-- TAB OEFENEN -->
+  <div class="tab-panel" id="toef">
+    <section>
+      <h2><span class="nr">★</span>Oefenen met handen</h2>
+      <div class="oef-intro">
+        <p>Acht situaties om het bod zelf te bepalen. Bekijk de hand, lees de vraag, en kies het juiste bod.</p>
+      </div>
+      <div id="oefVragen"></div>
+    </section>
+  </div>
 
-    <div class="biedverloop fade-in">
-      <div class="rij"><span class="mono">1<span class="suit r">♦</span></span><span class="mono">2<span class="suit r">♦</span></span><span class="uitleg">Zuid toont ruitensteun</span></div>
-      <div class="rij"><span class="mono">3<span class="suit z">♣</span></span><span class="mono">3<span class="suit z">♠</span></span><span class="uitleg">Controles in zijkleuren</span></div>
-      <div class="rij"><span class="mono">4<span class="suit r">♥</span></span><span class="mono">4SA</span><span class="uitleg">Harten gedekt → RKCB</span></div>
-      <div class="rij"><span class="mono">…</span><span class="mono">6<span class="suit r">♦</span></span><span class="uitleg">Keycards goed → slem</span></div>
-    </div>
-
-    <div class="letop fade-in">
-      <span class="label">Afspraak nodig</span>
-      <p>Na 1<span class="suit r">♦</span> – 2<span class="suit r">♦</span> kan 3<span class="suit z">♣</span> natuurlijk zijn of een controlebod. Dat hangt af van jullie systeem. Spreek dus af wanneer zijkleurbiedingen controles zijn.</p>
-    </div>
-  </section>
-
-  <section id="spelregels">
-    <h2><span class="nr">6</span>Drie vaste spelregels</h2>
-    <ul class="regel-lijst">
-      <li><span class="icoon">1</span><span><strong>Geen controlebod in de troefkleur.</strong> Een controlebod is normaal een bod in een zijkleur. Als iemand op mancheniveau de troefkleur biedt, is dat vaak afremmen.</span></li>
-      <li><span class="icoon">2</span><span><strong>Overslaan geeft informatie.</strong> Als iemand een kleur had kunnen bieden, maar die overslaat, ontkent hij meestal controle in die kleur.</span></li>
-      <li><span class="icoon">3</span><span><strong>Bied economisch.</strong> Bied de goedkoopste controle die je hebt. Zo houd je ruimte over voor de andere kleuren.</span></li>
-    </ul>
-  </section>
-
-  <section id="vuistregels">
-    <h2><span class="nr">7</span>Handige vuistregels</h2>
-    <div class="vuistregel"><span class="bid">1<span class="suit r">♥</span> – 2<span class="suit r">♥</span></span><span>gewone steun, ~6–9 punten. Geen controlebod.</span></div>
-    <div class="vuistregel"><span class="bid">1<span class="suit r">♥</span> – 4<span class="suit r">♥</span></span><span>manche bieden. Dit kan prima zijn, maar het laat weinig ruimte over.</span></div>
-    <div class="vuistregel"><span class="bid">16+ punten</span><span>of 14–15 met een mooie hand: bij sleminteresse kies je een forcing route, bijv. 2SA Jacoby of eerst een forcing nieuwe kleur.</span></div>
-    <div class="vuistregel"><span class="bid">Controles</span><span>gebruik je vóór RKCB.</span></div>
-    <div class="vuistregel"><span class="bid">RKCB</span><span>gebruik je pas als je weet dat de zijkleuren voldoende veilig zijn.</span></div>
-  </section>
-
-  <section id="samenvatting">
-    <div class="samenvatting fade-in">
-      <h2 style="display:block;">Kort gezegd</h2>
-      <p>RKCB vertelt je <em>hoeveel</em> keycards er zijn. Controlebiedingen vertellen je <em>waar</em> de tegenpartij geen kans krijgt om twee slagen te pakken.</p>
-      <p class="kern">Eerst steun tonen, dan controles uitwisselen, en daarna pas keycards vragen.</p>
-    </div>
-  </section>
+  <!-- TAB QUIZ -->
+  <div class="tab-panel" id="tq">
+    <section>
+      <h2><span class="nr">?</span>Test jezelf</h2>
+      <div class="quiz-intro">
+        <p>Acht vragen over de hele les. Klik een antwoord aan om te zien of het klopt.</p>
+        <div class="quiz-score" id="quizScore">0 / 8</div>
+      </div>
+      <div id="quizVragen"></div>
+      <div class="quiz-footer">
+        <button class="quiz-reset-btn" id="quizReset">Opnieuw beginnen</button>
+      </div>
+    </section>
+  </div>
 
 </div>
 
-
 <footer>BRIDGELES · CONTROLEBIEDINGEN BIJ SLEMONDERZOEK</footer>
+
+<script>
+  // ===== TAB NAVIGATIE =====
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-tab');
+      tabBtns.forEach(b => b.classList.remove('actief'));
+      tabPanels.forEach(p => p.classList.remove('actief'));
+      btn.classList.add('actief');
+      document.getElementById(target).classList.add('actief');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  // ===== QUIZ =====
+  const vragen = [
+    {
+      vraag: "Wat vertelt RKCB je NIET?",
+      opties: [
+        "Hoeveel keycards jullie samen hebben",
+        "In welke zijkleur jullie eventueel kwetsbaar zijn",
+        "Of jullie de troefheer hebben"
+      ],
+      goed: 1,
+      uitleg: "RKCB telt alleen keycards (azen + troefheer). Het zegt niets over wélke zijkleur een gat heeft waar de tegenstanders twee slagen kunnen pakken."
+    },
+    {
+      vraag: "Wat is een eerste controle in een kleur?",
+      opties: [
+        "De heer of een singleton",
+        "De vrouw of een dubbelton",
+        "Het aas of een renonce"
+      ],
+      goed: 2,
+      uitleg: "Eerste controle = aas of renonce (helemaal geen kaart in die kleur). Dat stopt de eerste slag van de tegenpartij in die kleur."
+    },
+    {
+      vraag: "Wanneer bied je pas controles?",
+      opties: [
+        "Meteen bij elke opening, ongeacht kracht",
+        "Pas als de troefkleur min of meer vaststaat en er genoeg kracht is",
+        "Alleen als de tegenstanders al gepast hebben"
+      ],
+      goed: 1,
+      uitleg: "Controlebiedingen volgen ná het vaststellen van troef en steun — niet als losstaand eerste bod."
+    },
+    {
+      vraag: "Wat is de juiste volgorde in het slemonderzoek?",
+      opties: [
+        "RKCB → controles → troefvrouw → steun tonen",
+        "Steun tonen → controles uitwisselen → RKCB → eventueel troefvrouw",
+        "Troefvrouw vragen → RKCB → steun tonen"
+      ],
+      goed: 1,
+      uitleg: "De vaste route is: partner opent → steun tonen → controles uitwisselen → eventueel RKCB → eventueel troefvrouw → slem of afremmen."
+    },
+    {
+      vraag: "Na 1♥, met 6–9 punten en hartensteun, bied je meestal:",
+      opties: [
+        "2♥ — gewone steun, geen controlebod",
+        "4♥ — direct de manche",
+        "2SA Jacoby — forcing route"
+      ],
+      goed: 0,
+      uitleg: "Een bod op 2-niveau met 6–9 punten is gewone, niet-forcing steun. Dat is geen controlebod en geen sleminteresse."
+    },
+    {
+      vraag: "Met 16+ punten en sleminteresse na partners 1♥-opening kies je het beste voor:",
+      opties: [
+        "Direct 4♥ bieden",
+        "Passen en wachten op een nieuwe kans",
+        "Een forcing route, zoals Jacoby 2SA"
+      ],
+      goed: 2,
+      uitleg: "Bij sleminteresse wil je geen eindbod kiezen, maar een forcing route (zoals Jacoby 2SA of een forcing nieuwe kleur) zodat er ruimte blijft voor controlebiedingen."
+    },
+    {
+      vraag: "Wat betekent het als partner een kleur overslaat tijdens het uitwisselen van controles?",
+      opties: [
+        "Dat hij die kleur is vergeten te bieden",
+        "Dat hij daar meestal geen controle in heeft",
+        "Dat hij juist de eerste controle in die kleur heeft"
+      ],
+      goed: 1,
+      uitleg: "Overslaan geeft informatie: als iemand een kleur had kunnen bieden maar dat niet doet, ontkent hij meestal controle in die kleur."
+    },
+    {
+      vraag: "Een controlebod in de troefkleur zelf — mag dat?",
+      opties: [
+        "Ja, dat gebeurt voortdurend",
+        "Normaal niet — een controlebod is meestal een bod in een zijkleur",
+        "Alleen op 5-niveau"
+      ],
+      goed: 1,
+      uitleg: "In de troefkleur doe je normaal geen controlebod. Bieden van de troefkleur op mancheniveau is meestal juist een teken om af te remmen."
+    }
+  ];
+
+  let antwoorden = new Array(vragen.length).fill(null);
+
+  function kleurSuits(tekst){
+    return tekst
+      .replace(/♥/g, '<span class="suit r">♥</span>')
+      .replace(/♦/g, '<span class="suit r">♦</span>')
+      .replace(/♠/g, '<span class="suit z">♠</span>')
+      .replace(/♣/g, '<span class="suit z">♣</span>');
+  }
+
+  function renderQuiz(){
+    const container = document.getElementById('quizVragen');
+    container.innerHTML = '';
+    vragen.forEach((v, i) => {
+      const div = document.createElement('div');
+      div.className = 'quiz-vraag';
+      div.innerHTML = `
+        <span class="vraagnr">Vraag ${i+1} van ${vragen.length}</span>
+        <div class="vraagtekst">${kleurSuits(v.vraag)}</div>
+        <div class="quiz-opties" data-vraag="${i}"></div>
+        <div class="quiz-uitleg" id="uitleg-${i}">${kleurSuits(v.uitleg)}</div>
+      `;
+      const optiesDiv = div.querySelector('.quiz-opties');
+      v.opties.forEach((opt, j) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-optie';
+        btn.innerHTML = kleurSuits(opt);
+        btn.addEventListener('click', () => beantwoord(i, j));
+        optiesDiv.appendChild(btn);
+      });
+      container.appendChild(div);
+    });
+    updateScore();
+  }
+
+  function beantwoord(vraagIdx, optieIdx){
+    if(antwoorden[vraagIdx] !== null) return; // al beantwoord
+    antwoorden[vraagIdx] = optieIdx;
+    const optiesDiv = document.querySelector(`.quiz-opties[data-vraag="${vraagIdx}"]`);
+    const knoppen = optiesDiv.querySelectorAll('.quiz-optie');
+    knoppen.forEach((btn, j) => {
+      btn.disabled = true;
+      if(j === vragen[vraagIdx].goed){
+        btn.classList.add('goed');
+      } else if(j === optieIdx){
+        btn.classList.add('fout');
+      }
+    });
+    document.getElementById(`uitleg-${vraagIdx}`).classList.add('zichtbaar');
+    updateScore();
+  }
+
+  function updateScore(){
+    const score = antwoorden.reduce((acc, a, i) => acc + (a === vragen[i].goed ? 1 : 0), 0);
+    document.getElementById('quizScore').textContent = `${score} / ${vragen.length}`;
+  }
+
+  document.getElementById('quizReset').addEventListener('click', () => {
+    antwoorden = new Array(vragen.length).fill(null);
+    renderQuiz();
+  });
+
+  // ===== OEFENEN MET HANDEN =====
+  const oefeningen = [
+    {
+      situatie: "Partner opent 1♥. Jij hebt:",
+      handen: [
+        { naam: "Jouw hand", kaarten: { "♠":"V843", "♥":"962", "♦":"H87", "♣":"H54" } }
+      ],
+      vraag: "Wat bied je?",
+      goedBod: "2♥",
+      uitleg: "Met 8 punten en hartensteun bied je 2♥: gewone, niet-forcing steun. Geen sleminteresse, geen controlebod."
+    },
+    {
+      situatie: "Partner opent 1♠. Jij hebt:",
+      handen: [
+        { naam: "Jouw hand", kaarten: { "♠":"A H V 9 2", "♥":"843", "♦":"H62", "♣":"95" } }
+      ],
+      vraag: "Wat bied je?",
+      goedBod: "4♠",
+      uitleg: "Deze hand heeft 12 HCP plus 1 verdelingspunt voor de doubleton klaveren: 13 FP. Met FP 13–15 en goede schoppensteun bied je direct 4♠. Geen sleminteresse, dus geen forcing route nodig."
+    },
+    {
+      situatie: "Partner opent 1♠. Jij hebt:",
+      handen: [
+        { naam: "Jouw hand", kaarten: { "♠":"A H 9 6 2", "♥":"A4", "♦":"V83", "♣":"AH5" } }
+      ],
+      vraag: "Je hebt 20 punten en sterke schoppensteun. Wat bied je?",
+      goedBod: "2SA",
+      uitleg: "Met 16+ punten en sleminteresse kies je een forcing route. Jacoby 2SA toont sterke schoppensteun en houdt ruimte voor controlebiedingen."
+    },
+    {
+      situatie: "Biedverloop: 1♥ – 2SA – 3♥ – ? Troef is harten op 3-niveau vastgesteld, jij bent aan zet. Jij hebt:",
+      handen: [
+        { naam: "Jouw hand", kaarten: { "♠":"H62", "♥":"A H V 9 4", "♦":"A8", "♣":"962" } }
+      ],
+      vraag: "Je hebt controle in zowel ruiten (aas) als schoppen (heer). 3♣ en 3♦ liggen al onder 3♥ en kunnen niet meer. Wat bied je?",
+      goedBod: "3♠",
+      uitleg: "Omdat troef al op 3-niveau vaststaat, zijn 3♣ en 3♦ niet meer beschikbaar — je kunt niet onder het laatste bod bieden. Het enige nog vrije controlebod op 3-niveau is 3♠, waarmee je je schoppencontrole (de heer) toont. Je ruitencontrole (aas) kun je een ronde later nog laten zien, bijvoorbeeld door op 4-niveau door te gaan."
+    },
+    {
+      situatie: "Biedverloop: 1♠ – 2SA – 3♠ – 4♣ – ? Jij was de opener met 1♠; partner toonde sterke steun met Jacoby 2SA, jij bood 3♠. Partner toont nu met 4♣ een klaverencontrole. Troef is schoppen. Jij bent aan zet. Jij hebt:",
+      handen: [
+        { naam: "Jouw hand", kaarten: { "♠":"A H 9 5 2", "♥":"96", "♦":"A84", "♣":"832" } }
+      ],
+      vraag: "Je hebt zelf geen controle in klaveren (dat hoeft ook niet, partner heeft die al getoond), maar wel in ruiten (aas). Wat bied je?",
+      goedBod: "4♦",
+      uitleg: "Partner heeft klaveren al gedekt met 4♣. Jij toont nu je eigen laagste nog vrije controle: 4♦ (aas ruiten). Klaveren en ruiten liggen na 4♣ niet meer op 3-niveau beschikbaar, dus het eerste vrije bod is 4♦."
+    },
+    {
+      situatie: "Biedverloop: 1♥ – 2SA – 3♥ – 4♣ – ? Jij was de opener met 1♥; partner toonde sterke steun met Jacoby 2SA, jij bood 3♥. Partner toont nu met 4♣ een klaverencontrole. Troef is harten. Jij bent aan zet. Jij hebt:",
+      handen: [
+        { naam: "Jouw hand", kaarten: { "♠":"962", "♥":"A H 8 5 3", "♦":"H4", "♣":"A92" } }
+      ],
+      vraag: "Partner heeft klaveren al gedekt. Jij hebt zelf ook klaverencontrole (aas) en in ruiten de heer (tweede controle). Wat bied je?",
+      goedBod: "4♦",
+      uitleg: "Klaveren is al getoond door partner, dus jij hoeft dat niet te herhalen. Je volgende stap is je eigen laagste nog ongenoemde controle: 4♦ (de heer, tweede controle in ruiten). Daarna kan RKCB volgen."
+    },
+    {
+      situatie: "Troef is schoppen (vastgesteld), controles worden uitgewisseld op 3-niveau. Jij hebt:",
+      handen: [
+        { naam: "Jouw hand", kaarten: { "♠":"A H 9 6 4 3", "♥":"—", "♦":"H852", "♣":"A94" } }
+      ],
+      vraag: "Je hebt controle in alle drie de zijkleuren: harten (renonce), ruiten (heer) en klaveren (aas). Wat bied je als eerste controlebod?",
+      goedBod: "3♣",
+      uitleg: "Je biedt van onderaf: klaveren is de laagste zijkleur (lager dan ruiten en harten), dus 3♣ komt eerst — ook al is je renonce in harten een 'mooiere' controle. De volgorde van bieden gaat op kleurhoogte, niet op kwaliteit van de controle."
+    },
+    {
+      situatie: "Noord opent 1♦, Zuid heeft 6 punten en 4-kaart ruitensteun en biedt 2♦ (gewone steun). Bij dit paar geldt de afspraak dat een latere zijkleurbieding op 3-niveau een controlebod is, geen nieuwe kleur.",
+      handen: [
+        { naam: "Noord", kaarten: { "♠":"H8", "♥":"A H V 3", "♦":"A H 9 6 2", "♣":"A4" } },
+        { naam: "Zuid", kaarten: { "♠":"A93", "♥":"962", "♦":"V843", "♣":"963" } }
+      ],
+      vraag: "Noord is aan zet na 1♦–2♦. Wat is Noords eerste controlebod?",
+      goedBod: "3♣",
+      uitleg: "Noord heeft controle in alle drie de zijkleuren (♣ aas, ♥ aas+heer, ♠ heer), dus bied je van onderaf: klaveren (3♣) komt als laagste kleur eerst. Zuid kan daarna 3♠ bieden om het aas schoppen te tonen. Noord kan daarna 4♥ bieden om hartencontrole te tonen. Daarna kan Noord of Zuid, afhankelijk van de afspraak en het vertrouwen in de controles, RKCB gebruiken. Let op: zonder de afspraak over zijkleurbiedingen zou 3♣ hier ook een gewoon nieuw-kleurbod kunnen betekenen — daarom is die afspraak vooraf belangrijk."
+    }
+  ];
+
+  const suitKleur = { "♠":"z", "♣":"z", "♥":"r", "♦":"r" };
+  const biedKleuren = ["♣", "♦", "♥", "♠", "SA"];
+
+  function renderOefHand(kaarten){
+    let html = '';
+    for(const suit of ["♠","♥","♦","♣"]){
+      const cls = suitKleur[suit] === 'r' ? 'color:var(--rood);' : 'color:var(--zwart);';
+      html += `<div class="suit-row"><span class="symbol" style="${cls}">${suit}</span><span>${kaarten[suit]}</span></div>`;
+    }
+    return html;
+  }
+
+  function renderBiedbox(oefIdx){
+    let html = '<div class="biedbox">';
+    for(let niveau = 1; niveau <= 7; niveau++){
+      html += '<div class="biedbox-rij">';
+      biedKleuren.forEach(kleur => {
+        const bod = niveau + kleur;
+        const isRood = (kleur === "♥" || kleur === "♦");
+        const suitHtml = kleur === "SA" ? "SA" : `<span class="bk-suit ${isRood ? 'r' : 'z'}">${kleur}</span>`;
+        html += `<button class="biedkaart" data-bod="${bod}" data-oef="${oefIdx}">${niveau}${suitHtml}</button>`;
+      });
+      html += '</div>';
+    }
+    html += `<div class="biedbox-rij pasrij"><button class="biedkaart pas" data-bod="PAS" data-oef="${oefIdx}">Pas</button></div>`;
+    html += '</div>';
+    return html;
+  }
+
+  let oefAntwoorden = new Array(oefeningen.length).fill(null);
+
+  function renderOefeningen(){
+    const container = document.getElementById('oefVragen');
+    container.innerHTML = '';
+    oefeningen.forEach((o, i) => {
+      const div = document.createElement('div');
+      div.className = 'oef-kaart';
+      let handenHtml = '<div class="oef-hand-rij">';
+      o.handen.forEach(h => {
+        handenHtml += `<div class="oef-hand"><div class="speler">${h.naam}</div>${renderOefHand(h.kaarten)}</div>`;
+      });
+      handenHtml += '</div>';
+      div.innerHTML = `
+        <span class="oefnr">Oefening ${i+1} van ${oefeningen.length}</span>
+        <div class="oef-situatie">${kleurSuits(o.situatie)}</div>
+        ${handenHtml}
+        <div class="oef-vraag">${kleurSuits(o.vraag)}</div>
+        ${renderBiedbox(i)}
+        <div class="oef-gekozen" id="oef-gekozen-${i}"></div>
+        <div class="oef-uitleg" id="oef-uitleg-${i}">${kleurSuits(o.uitleg)}</div>
+      `;
+      div.querySelectorAll('.biedkaart').forEach(btn => {
+        btn.addEventListener('click', () => beantwoordOef(i, btn.getAttribute('data-bod')));
+      });
+      container.appendChild(div);
+    });
+  }
+
+  function beantwoordOef(oefIdx, gekozenBod){
+    if(oefAntwoorden[oefIdx] !== null) return;
+    oefAntwoorden[oefIdx] = gekozenBod;
+    const goedBod = oefeningen[oefIdx].goedBod;
+    const isJuist = gekozenBod === goedBod;
+
+    const alleKnoppen = document.querySelectorAll(`.biedkaart[data-oef="${oefIdx}"]`);
+    alleKnoppen.forEach(btn => {
+      btn.disabled = true;
+      const bod = btn.getAttribute('data-bod');
+      if(bod === gekozenBod && isJuist){
+        btn.classList.add('gekozen-goed');
+      } else if(bod === gekozenBod && !isJuist){
+        btn.classList.add('gekozen-fout');
+      } else if(bod === goedBod && !isJuist){
+        btn.classList.add('toon-goed');
+      }
+    });
+
+    const gekozenDiv = document.getElementById(`oef-gekozen-${oefIdx}`);
+    if(isJuist){
+      gekozenDiv.innerHTML = `Jouw bod: <span class="nadruk">${kleurSuits(gekozenBod)}</span> — dat klopt!`;
+    } else {
+      gekozenDiv.innerHTML = `Jouw bod: <span class="nadruk">${kleurSuits(gekozenBod)}</span> — het juiste bod was <span class="nadruk">${kleurSuits(goedBod)}</span>.`;
+    }
+
+    document.getElementById(`oef-uitleg-${oefIdx}`).classList.add('zichtbaar');
+  }
+
+  renderOefeningen();
+
+  renderQuiz();
+</script>
 
 </body>
 </html>
